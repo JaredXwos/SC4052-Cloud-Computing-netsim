@@ -1,6 +1,18 @@
-from typing import List, Tuple
+from typing import List, Tuple, Protocol
 import random
 from Components.host import Host
+from Components.workloads.flow import Flow
+
+
+class Workload(Protocol):
+    """
+    Generate traffic for a single epoch.
+
+    Returns:
+    List of flows:
+        (src_id, dst_id, rate)
+    """
+    def generate(self) -> List[Flow]: ...
 
 class RandomWorkload:
     """
@@ -12,17 +24,8 @@ class RandomWorkload:
     """
 
     hosts: List[Host]
-
     flows_per_epoch: int
-    """
-    Number of flows to generate every epoch.
-    Controls overall offered load.
-    """
-
-    data_per_epoch: float
-    """
-    Traffic rate per flow, given in units per epoch.
-    """
+    data_per_epoch: float #constant
 
     def __init__(
         self,
@@ -34,19 +37,12 @@ class RandomWorkload:
         self.flows_per_epoch = flows_per_epoch
         self.data_per_epoch = rate
 
-    def generate(self) -> List[Tuple[int, int, float]]:
-        """
-        Generate traffic for a single epoch.
+    def generate(self) -> List[Flow]:
 
-        Returns:
-        List of flows:
-            (src_id, dst_id, rate)
-        """
-
-        flows: List[Tuple[int, int, float]] = []
+        flows: List[Flow] = []
 
         for _ in range(self.flows_per_epoch):
             src, dst = random.sample(self.hosts, 2)
-            flows.append((src.id, dst.id, self.data_per_epoch))
+            flows.append(Flow(src.id, dst.id, self.data_per_epoch))
 
         return flows

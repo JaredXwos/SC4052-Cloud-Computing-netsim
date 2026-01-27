@@ -1,7 +1,11 @@
 import random
+from typing import Callable
+
 import networkx as nx
-import weights
-import multipath
+from Components.routing import weights, multipath
+from Components.topology.topology_types import Node, Path
+
+RoutingPolicy = Callable[[nx.Graph, Node, Node], Path]
 
 rip = multipath.no_multipath(weights.hop_weight)
 ospf = multipath.no_multipath(weights.ospf_weight)
@@ -29,7 +33,7 @@ def conga(topology: nx.Graph, src, dst):
         neighbors = topology[current].items()  # (neighbor, edge_data)
 
         costs = [
-            (n, 1.0 / float(data["available_capacity"]))
+            (n, 1.0 / float(data["capacity"]-data["congestion"]))
             for n, data in neighbors
         ]
 

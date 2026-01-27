@@ -1,10 +1,6 @@
 from dataclasses import dataclass
 from typing import Dict, Tuple, List, Hashable
-
-
-Node = Hashable
-Edge = Tuple[Node, Node]
-
+from Components.topology.topology_types import Edge, Node
 
 @dataclass(slots=True)
 class EpochResult:
@@ -37,3 +33,11 @@ class EpochResult:
 
     # total latency experienced
     flow_latency: List[float]
+
+    # Summary
+
+    # total traffic sent
+    total_sent: float
+
+    # total traffic dropped
+    total_dropped: float
