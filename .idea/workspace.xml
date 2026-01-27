@@ -4,23 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ec085119-8bd0-4287-bfca-d9feb94643b2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/NTU_SC4052_Assignment1.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Components/host.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Components/routing/multipath.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Components/routing/policy.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Components/routing/weights.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Components/topology/fat_tree.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Components/topology/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Components/workloads/random_workload.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Simulation/epoch_result.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Simulation/metric.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/visualisation.py" afterDir="false" />
+    <list default="true" id="ec085119-8bd0-4287-bfca-d9feb94643b2" name="Changes" comment="Completed simulator components">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Components/routing/policy.py" beforeDir="false" afterPath="$PROJECT_DIR$/Components/routing/policy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Components/routing/weights.py" beforeDir="false" afterPath="$PROJECT_DIR$/Components/routing/weights.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,12 +97,25 @@
       <option name="presentableId" value="Default" />
       <updated>1769397922920</updated>
       <workItem from="1769397924020" duration="9029000" />
-      <workItem from="1769470562360" duration="7505000" />
+      <workItem from="1769470562360" duration="9061000" />
     </task>
+    <task id="LOCAL-00001" summary="Completed simulator components">
+      <option name="closed" value="true" />
+      <created>1769478758903</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1769478758903</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Completed simulator components" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed simulator components" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/NTU_SC4052_Assignment1$fat_tree.coverage" NAME="fat_tree Coverage Results" MODIFIED="1769407176397" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/topology" />

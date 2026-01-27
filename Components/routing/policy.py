@@ -6,12 +6,20 @@ import multipath
 rip = multipath.no_multipath(weights.hop_weight)
 ospf = multipath.no_multipath(weights.ospf_weight)
 eigrp = multipath.no_multipath(weights.eigrp_weight)
+stale_ospf = multipath.no_multipath(weights.stale_ospf_weight)
+stale_eigrp = multipath.no_multipath(weights.stale_eigrp_weight)
+
 rip_ecmp = multipath.ecmp(weights.hop_weight)
 ospf_ecmp = multipath.ecmp(weights.ospf_weight)
 eigrp_ecmp = multipath.ecmp(weights.eigrp_weight)
+stale_ospf_ecmp = multipath.ecmp(weights.stale_ospf_weight)
+stale_eigrp_ecmp = multipath.ecmp(weights.stale_eigrp_weight)
+
 rip_drill = multipath.drill(weights.hop_weight)
 ospf_drill = multipath.drill(weights.ospf_weight)
 eigrp_drill = multipath.drill(weights.eigrp_weight)
+stale_ospf_drill = multipath.drill(weights.stale_ospf_weight)
+stale_eigrp_drill = multipath.drill(weights.stale_eigrp_weight)
 
 def conga(topology: nx.Graph, src, dst):
     current = src
