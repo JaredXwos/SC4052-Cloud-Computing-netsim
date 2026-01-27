@@ -1,11 +1,11 @@
-from typing import Iterable, Dict, List
+from typing import Dict, List
 
 import networkx as nx
 
 from Components.routing.policy import RoutingPolicy
 from Components.workloads.congestion import CongestionType
 from Components.workloads.workload import Workload
-from Simulation.metric import Metric
+from Simulation.metrics.metric import Metric
 from Simulation.run_epoch import run_epoch
 
 

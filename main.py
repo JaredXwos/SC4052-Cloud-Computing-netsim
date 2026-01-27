@@ -1,11 +1,11 @@
-from Components.routing.policy import eigrp, eigrp_drill, ospf_ecmp, ospf_drill
+from Components.routing.policy import ospf_ecmp, ospf_drill
 from Components.topology.fat_tree import build_fat_tree
 from Components.host import generate_hosts
 from Components.workloads.congestion import congestion_ar1
 from Components.workloads.workload import RandomWorkload
-from Simulation import metric
+from Simulation.metrics.metric import AllMetrics
 from Simulation.run_simulation import run_simulation
-from visualisation import draw_topology
+
 
 def main():
 
@@ -20,23 +20,10 @@ def main():
     workload = RandomWorkload(
         hosts=hosts,
         flows_per_epoch=800,
-        rate=10,
+        rate=5,
     )
 
-    metrics = [
-        metric.DropRatio(),
-        metric.MeanLatency(),
-        metric.OfferedLoad(),
-        metric.JainFairness(),
-        metric.FlowRatePercentiles(),
-        metric.EdgeUtilization(),
-        metric.MeanHopCount(),
-        metric.SaturatedEdges(),
-        metric.Throughput(),
-        metric.TrafficWeightedUtilization(),
-        metric.HotspotShare(),
-        metric.LoadCapTotals()
-    ]
+    metrics = [AllMetrics]
 
     congestion = congestion_ar1(alpha=0.9, noise_scale=0.5)
 
@@ -46,7 +33,7 @@ def main():
         congestion=congestion,
         routing_policies=[ospf_drill],
         workload=workload,
-        epochs=100,
+        epochs=150,
     )
 
     print("Simulation results:")
@@ -59,7 +46,7 @@ def main():
         congestion=congestion,
         routing_policies=[ospf_ecmp],
         workload=workload,
-        epochs=100,
+        epochs=150,
     )
 
     print("Simulation results:")

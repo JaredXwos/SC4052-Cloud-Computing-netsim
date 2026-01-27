@@ -26,3 +26,9 @@ def add_link_alias(topology: nx.Graph, capacity: float, latency: float):
 
 def get_capacity(topology, u, v) -> float:
     return float(topology[u][v]["capacity"])
+
+def get_congestion(topology, u, v) -> float:
+    return float(topology[u][v]["congestion"])
+
+def get_stale_congestion(topology, u, v) -> float:
+    return float(topology[u][v]["stale_congestion"])
