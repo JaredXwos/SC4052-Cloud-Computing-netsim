@@ -4,6 +4,7 @@ from Simulation.epoch_result import EpochResult
 from Simulation.metrics.edge_metrics import *
 from Simulation.metrics.flow_metrics import *
 from Simulation.metrics.general_metrics import *
+from Simulation.metrics.switch_metrics import *
 
 
 @runtime_checkable
@@ -37,6 +38,11 @@ class AllMetrics:
         HotspotShare(),
         LoadCapTotals(),
         EdgeUtilizationStd(),
+        SwitchUtilStd(),
+        SwitchUtilGini(),
+        HotSwitchFraction(),
+        MeanSwitchUtil(),
+        P95SwitchUtil(),
     ]
 
     def process(self, epoch: "EpochResult") -> None:
@@ -46,7 +52,7 @@ class AllMetrics:
     def result(self) -> Dict[str, float]:
         result = {}
         for metric in self.metrics:
-            result += metric.result()
+            result |= metric.result()
         return result
 
     def reset(self) -> None:

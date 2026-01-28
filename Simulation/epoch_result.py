@@ -34,6 +34,11 @@ class EpochResult:
     # total latency experienced
     flow_latency: List[float]
 
+    # Switch statistics
+
+    switch_load: Dict[Node, float]
+    switch_capacity: Dict[Node, float]
+
     # Summary
 
     # total traffic sent

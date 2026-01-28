@@ -31,6 +31,9 @@ def run_epoch(
     flow_offered = []
     flow_latency = []
 
+    switch_load = defaultdict(float)
+    switch_capacity = defaultdict(float)
+
     total_sent = 0.0
     total_latency_weighted = 0.0
 
@@ -92,13 +95,26 @@ def run_epoch(
             for u, v in zip(path, path[1:]):
                 edge_dropped[(u, v)] += share
 
+    # Phase 4: Compute Summarised Switch Metrics
+
+    for (u, v), load in edge_load.items():
+        cap = edge_capacity[(u, v)]
+
+        switch_load[u] += load
+        switch_load[v] += load
+
+        switch_capacity[u] += cap
+        switch_capacity[v] += cap
+
     return EpochResult(
         edge_load=dict(edge_load),
         edge_capacity=edge_capacity,
         edge_dropped=dict(edge_dropped),
         flow_paths=flow_paths,
-        flow_rates=flow_rates,      # delivered rates now!
+        flow_rates=flow_rates,
         flow_latency=flow_latency,
-        total_sent=total_sent,      # offered
+        switch_load=switch_load,
+        switch_capacity=switch_capacity,
+        total_sent=total_sent,
         total_dropped=total_dropped
     )

@@ -4,14 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ec085119-8bd0-4287-bfca-d9feb94643b2" name="Changes" comment="Completed Simulator">
-      <change afterPath="$PROJECT_DIR$/Simulation/metrics/edge_metrics.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Simulation/metrics/flow_metrics.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Simulation/metrics/general_metrics.py" afterDir="false" />
+    <list default="true" id="ec085119-8bd0-4287-bfca-d9feb94643b2" name="Changes" comment="Minor metrics corrections">
+      <change afterPath="$PROJECT_DIR$/Components/topology/jellyfish.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Components/topology/leaf_spine.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Simulation/metrics/switch_metrics.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/global_randoms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/todo.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Components/routing/multipath.py" beforeDir="false" afterPath="$PROJECT_DIR$/Components/routing/multipath.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Components/topology/fat_tree.py" beforeDir="false" afterPath="$PROJECT_DIR$/Components/topology/fat_tree.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Components/topology/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/Components/topology/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Simulation/metric.py" beforeDir="false" afterPath="$PROJECT_DIR$/Simulation/metric.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Components/workloads/congestion.py" beforeDir="false" afterPath="$PROJECT_DIR$/Components/workloads/congestion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Components/workloads/workload.py" beforeDir="false" afterPath="$PROJECT_DIR$/Components/workloads/workload.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Simulation/epoch_result.py" beforeDir="false" afterPath="$PROJECT_DIR$/Simulation/epoch_result.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Simulation/metrics/metric.py" beforeDir="false" afterPath="$PROJECT_DIR$/Simulation/metrics/metric.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Simulation/run_epoch.py" beforeDir="false" afterPath="$PROJECT_DIR$/Simulation/run_epoch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Simulation/run_simulation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Simulation/run_simulation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,6 +64,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\hatoa\PycharmProjects\NTU_SC4052_Assignment1\Simulation\metrics" />
       <recent name="C:\Users\hatoa\PycharmProjects\NTU_SC4052_Assignment1\Components" />
       <recent name="C:\Users\hatoa\PycharmProjects\NTU_SC4052_Assignment1\routing" />
     </key>
@@ -102,7 +111,7 @@
       <option name="presentableId" value="Default" />
       <updated>1769397922920</updated>
       <workItem from="1769397924020" duration="9029000" />
-      <workItem from="1769470562360" duration="23742000" />
+      <workItem from="1769470562360" duration="41937000" />
     </task>
     <task id="LOCAL-00001" summary="Completed simulator components">
       <option name="closed" value="true" />
@@ -128,20 +137,40 @@
       <option name="project" value="LOCAL" />
       <updated>1769500210117</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Minor metrics corrections">
+      <option name="closed" value="true" />
+      <created>1769510857053</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1769510857053</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Completed simulator components" />
     <MESSAGE value="Added stale routing" />
     <MESSAGE value="Completed Simulator" />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed Simulator" />
+    <MESSAGE value="Minor metrics corrections" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor metrics corrections" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/NTU_SC4052_Assignment1$fat_tree.coverage" NAME="fat_tree Coverage Results" MODIFIED="1769407176397" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/topology" />
-    <SUITE FILE_PATH="coverage/NTU_SC4052_Assignment1$main.coverage" NAME="main Coverage Results" MODIFIED="1769501879784" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/NTU_SC4052_Assignment1$main.coverage" NAME="main Coverage Results" MODIFIED="1769535495379" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

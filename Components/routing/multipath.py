@@ -1,4 +1,4 @@
-import random
+import global_randoms
 import networkx as nx
 from Components.topology.utils import get_capacity, get_congestion
 
@@ -11,7 +11,7 @@ def no_multipath(weight):
 def ecmp(weight):
     def policy(topology: nx.Graph, src, dst):
         paths = list(nx.all_shortest_paths(topology, src, dst, weight=weight))
-        return random.choice(paths)
+        return global_randoms.multipath.choice(paths)
     return policy
 
 def drill(weight):
@@ -20,7 +20,7 @@ def drill(weight):
         paths = list(nx.all_shortest_paths(topology, src, dst, weight=weight))
 
         # sample 2 like classic DRILL
-        choices = random.sample(paths, min(2, len(paths)))
+        choices = global_randoms.multipath.sample(paths, min(2, len(paths)))
 
         def path_cost(path):
             # bottleneck utilization (smaller is better)
