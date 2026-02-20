@@ -13,31 +13,45 @@ def build_leaf_spine(
     link_latency: float = 1.0,
     hosts_per_leaf: int = 8,
 ) -> nx.Graph:
-    """
-    Build a leaf–spine (2-tier Clos) topology.
-
-    Structure:
-        hosts -> leaf -> spine -> leaf -> hosts
-
-    Every leaf connects to every spine.
-    """
 
     topology = nx.Graph()
 
     n_hosts = len(hosts)
     n_leaves = math.ceil(n_hosts / hosts_per_leaf)
 
-    # automatic spine count (reasonable default)
+    # Clos-style heuristic
     n_spines = max(2, int(math.sqrt(n_leaves)))
 
     leaves = [f"L{i}" for i in range(n_leaves)]
     spines = [f"S{i}" for i in range(n_spines)]
 
-    for l in leaves:
-        topology.add_node(l, type="leaf")
+    # --------------------------------------------------
+    # add spine switches
+    # --------------------------------------------------
 
     for s in spines:
-        topology.add_node(s, type="spine")
+        topology.add_node(
+            s,
+            type="switch",
+            role="spine",
+            layer=2,
+        )
+
+    # --------------------------------------------------
+    # add leaf switches
+    # --------------------------------------------------
+
+    for l in leaves:
+        topology.add_node(
+            l,
+            type="switch",
+            role="leaf",
+            layer=1,
+        )
+
+    # --------------------------------------------------
+    # leaf ↔ spine full bipartite
+    # --------------------------------------------------
 
     for l in leaves:
         for s in spines:
@@ -49,11 +63,19 @@ def build_leaf_spine(
                 stale_congestion=0.0,
             )
 
+    # --------------------------------------------------
+    # hosts ↔ leaf
+    # --------------------------------------------------
+
     for i, host in enumerate(hosts):
 
         leaf = leaves[i // hosts_per_leaf]
 
-        topology.add_node(host.id, type="host")
+        topology.add_node(
+            host.id,
+            type="host",
+            layer=0,
+        )
 
         topology.add_edge(
             host.id, leaf,

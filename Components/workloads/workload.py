@@ -98,8 +98,42 @@ class AR1Workload(_AR1BaseWorkload):
     ):
         super().__init__(hosts, flows_per_epoch, rate, alpha)
 
-    def _choose_endpoints(self):
-        return global_randoms.workload.sample(self.hosts, 2)
+        self._endpoints = []
+        self._initialise_endpoints()
+
+    # -----------------------------------------
+
+    def _initialise_endpoints(self):
+        self._endpoints = []
+
+        for _ in range(self.flows_per_epoch):
+            src, dst = global_randoms.workload.sample(self.hosts, 2)
+            self._endpoints.append((src.id, dst.id))
+
+    # -----------------------------------------
+
+    def generate(self) -> List[Flow]:
+
+        flows: List[Flow] = []
+
+        for i in range(self.flows_per_epoch):
+
+            # Drift with probability alpha
+            if i < len(self._endpoints) and global_randoms.workload.random() < self.alpha:
+                src_id, dst_id = self._endpoints[i]
+            else:
+                src, dst = global_randoms.workload.sample(self.hosts, 2)
+                src_id, dst_id = src.id, dst.id
+
+                if i < len(self._endpoints):
+                    self._endpoints[i] = (src_id, dst_id)
+                else:
+                    self._endpoints.append((src_id, dst_id))
+
+            rate = self._next_rate(i)
+            flows.append(Flow(src_id, dst_id, rate))
+
+        return flows
 
 class AR1HotspotWorkload(_AR1BaseWorkload):
     """AR(1) + spatial hotspot workload."""
@@ -153,46 +187,60 @@ class AR1UnscheduledIncast(_AR1BaseWorkload):
         self._choose_endpoints()
 
     def generate(self) -> List[Flow]:
-        # pick a new incast receiver each epoch
-        self._receiver = global_randoms.workload.choice(self.hosts)
+
+        # endpoint drift
+        if global_randoms.workload.random() > self.alpha:
+            self._receiver = global_randoms.workload.choice(self.hosts)
+
         return super().generate()
 
-    def _choose_endpoints(self):
-        dst = self._receiver
-        while True:
-            src = global_randoms.workload.choice(self.hosts)
-            if src != dst:
-                return src, dst
-
 class AR1ScheduledGroupIncast(_AR1BaseWorkload):
-    """
-    AR(1) + incast to a job group (tag-based).
-
-    Each epoch:
-        many senders -> random destinations inside one job group
-
-    This avoids single-NIC bottlenecks while still creating
-    strong congestion depending on placement (rack-local vs spread).
-    """
 
     JOB_PREFIX = "job"
 
-    def __init__(
-            self,
-            hosts: List[Host],
-            flows_per_epoch: int = 50,
-            rate: float = 1.0,
-            alpha: float = 0.9,
-            groups: int = 32,
-            cross_ratio: float = 0.1,
-    ):
+    def __init__(self, hosts, flows_per_epoch=50,
+                 rate=1.0, alpha=0.9,
+                 group_size=32, cross_ratio=0.1):
+
         super().__init__(hosts, flows_per_epoch, rate, alpha)
 
-        self.groups = groups
+        self.group_size = group_size
         self.cross_ratio = cross_ratio
 
+        self.groups = max(1, len(hosts) // group_size)
         self._assign_groups()
 
+        self._active_group = global_randoms.workload.randrange(self.groups)
+        self._incast_dst = None
+
+        self._endpoints = []
+        self._initialise_endpoints()
+
+    def _initialise_endpoints(self):
+        self._endpoints = []
+
+        for _ in range(self.flows_per_epoch):
+            src, dst = self._draw_new_pair()
+            self._endpoints.append((src.id, dst.id))
+
+    def _draw_new_pair(self):
+        group = self._groups[self._active_group]
+
+        if not group:
+            return None, None
+
+        # choose incast destination once
+        if self._incast_dst is None or \
+                global_randoms.workload.random() > self.alpha:
+            self._incast_dst = global_randoms.workload.choice(group)
+
+        # choose source
+        if global_randoms.workload.random() < self.cross_ratio:
+            src = global_randoms.workload.choice(self.hosts)
+        else:
+            src = global_randoms.workload.choice(group)
+
+        return src, self._incast_dst
     def _assign_groups(self):
         clear_prefixed_tags(self.hosts, f"{self.JOB_PREFIX}:")
 
@@ -200,34 +248,41 @@ class AR1ScheduledGroupIncast(_AR1BaseWorkload):
         global_randoms.workload.shuffle(shuffled)
 
         chunk = len(shuffled) // self.groups
+        self._groups = []
 
         for g in range(self.groups):
-            for h in shuffled[g * chunk:(g + 1) * chunk]:
+            group_hosts = shuffled[g * chunk:(g + 1) * chunk]
+            self._groups.append(group_hosts)
+
+            for h in group_hosts:
                 add_group_tag(h, self.JOB_PREFIX, g)
 
-    def generate(self) -> List[Flow]:
-        g = global_randoms.workload.randrange(self.groups)
-        tag = f"{self.JOB_PREFIX}:{g}"
+    def generate(self):
 
-        dst_group = [h for h in self.hosts if h.has_tag(tag)]
-        if len(dst_group) < 2:
-            return []
+        # group drift
+        if global_randoms.workload.random() > self.alpha:
+            self._active_group = global_randoms.workload.randrange(self.groups)
+            self._incast_dst = None  # reset incast target
 
-        flows: List[Flow] = []
+        flows = []
 
         for i in range(self.flows_per_epoch):
-            # choose src population
-            if global_randoms.workload.random() < self.cross_ratio:
-                src = global_randoms.workload.choice(self.hosts)
-            else:
-                src = global_randoms.workload.choice(dst_group)
 
-            dst = global_randoms.workload.choice(dst_group)
-            if src == dst:
-                continue
+            if i < len(self._endpoints) and \
+                    global_randoms.workload.random() < self.alpha:
+
+                src_id, dst_id = self._endpoints[i]
+
+            else:
+                src, dst = self._draw_new_pair()
+                if src is None or dst is None:
+                    continue
+
+                src_id, dst_id = src.id, dst.id
+                self._endpoints[i] = (src_id, dst_id)
 
             rate = self._next_rate(i)
-            flows.append(Flow(src.id, dst.id, rate))
+            flows.append(Flow(src_id, dst_id, rate))
 
         return flows
 
@@ -247,42 +302,26 @@ class AR1StrictLocalGroupWorkload(_AR1BaseWorkload):
             flows_per_epoch: int = 50,
             rate: float = 1.0,
             alpha: float = 0.9,
-            groups: int = 32,
+            group_size: int = 32,
             cross_ratio: float = 0.1,
     ):
         super().__init__(hosts, flows_per_epoch, rate, alpha)
 
-        self.groups = groups
+        self.group_size = group_size
         self.cross_ratio = cross_ratio
+
+        # Compute number of groups dynamically
+        self.groups = max(1, len(self.hosts) // self.group_size)
 
         self._assign_groups()
 
-    def _assign_groups(self):
-        clear_prefixed_tags(self.hosts, f"{self.JOB_PREFIX}:")
+        self._endpoints = []
+        self._initialise_endpoints()
 
-        shuffled = self.hosts[:]
-        global_randoms.workload.shuffle(shuffled)
+    def _initialise_endpoints(self):
+        self._endpoints = []
 
-        chunk = len(shuffled) // self.groups
-
-        for g in range(self.groups):
-            for h in shuffled[g * chunk:(g + 1) * chunk]:
-                add_group_tag(h, self.JOB_PREFIX, g)
-
-    # ------------------------
-
-    def _group_hosts(self, g: int):
-        tag = f"{self.JOB_PREFIX}:{g}"
-        return [h for h in self.hosts if h.has_tag(tag)]
-
-    # ------------------------
-
-    def generate(self) -> List[Flow]:
-
-        flows: List[Flow] = []
-
-        for i in range(self.flows_per_epoch):
-
+        for _ in range(self.flows_per_epoch):
             g = global_randoms.workload.randrange(self.groups)
             group = self._group_hosts(g)
 
@@ -295,7 +334,67 @@ class AR1StrictLocalGroupWorkload(_AR1BaseWorkload):
                 if src != dst:
                     break
 
+            self._endpoints.append((src.id, dst.id))
+
+    def _assign_groups(self):
+        clear_prefixed_tags(self.hosts, f"{self.JOB_PREFIX}:")
+
+        shuffled = self.hosts[:]
+        global_randoms.workload.shuffle(shuffled)
+
+        self._groups = []
+
+        for g in range(self.groups):
+            start = g * self.group_size
+            end = start + self.group_size
+            group_hosts = shuffled[start:end]
+
+            if not group_hosts:
+                continue
+
+            self._groups.append(group_hosts)
+
+            for h in group_hosts:
+                add_group_tag(h, self.JOB_PREFIX, g)
+
+    # ------------------------
+
+    def _group_hosts(self, g: int):
+        return self._groups[g]
+
+    # ------------------------
+
+    def generate(self) -> List[Flow]:
+
+        flows: List[Flow] = []
+
+        for i in range(self.flows_per_epoch):
+
+            # Drift: with probability alpha keep previous endpoints
+            if i < len(self._endpoints) and global_randoms.workload.random() < self.alpha:
+                src_id, dst_id = self._endpoints[i]
+            else:
+                g = global_randoms.workload.randrange(self.groups)
+                group = self._group_hosts(g)
+
+                if len(group) < 2:
+                    continue
+
+                while True:
+                    src = global_randoms.workload.choice(group)
+                    dst = global_randoms.workload.choice(group)
+                    if src != dst:
+                        break
+
+                src_id, dst_id = src.id, dst.id
+
+                # store new endpoints
+                if i < len(self._endpoints):
+                    self._endpoints[i] = (src_id, dst_id)
+                else:
+                    self._endpoints.append((src_id, dst_id))
+
             rate = self._next_rate(i)
-            flows.append(Flow(src.id, dst.id, rate))
+            flows.append(Flow(src_id, dst_id, rate))
 
         return flows
