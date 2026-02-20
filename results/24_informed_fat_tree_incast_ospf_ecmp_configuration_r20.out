@@ -1,0 +1,41 @@
+Generated 8192 hosts
+[fat-tree-informed] k=32, capacity=8192, hosts=8192
+Graph: 9472 nodes, 24576 edges
+  0%|          | 0/10 [00:00<?, ?it/s]Unique sources this epoch: 5139
+ 10%|█         | 1/10 [04:43<42:27, 283.04s/it]Unique sources this epoch: 5133
+ 20%|██        | 2/10 [04:57<16:41, 125.15s/it]Unique sources this epoch: 5130
+ 30%|███       | 3/10 [10:09<24:32, 210.31s/it]Unique sources this epoch: 5126
+ 40%|████      | 4/10 [15:46<26:02, 260.39s/it]Unique sources this epoch: 5122
+ 50%|█████     | 5/10 [21:15<23:44, 284.98s/it]Unique sources this epoch: 5146
+ 60%|██████    | 6/10 [26:51<20:10, 302.56s/it]Unique sources this epoch: 5123
+ 70%|███████   | 7/10 [32:28<15:41, 313.85s/it]Unique sources this epoch: 5154
+ 80%|████████  | 8/10 [38:02<10:40, 320.05s/it]Unique sources this epoch: 5143
+ 90%|█████████ | 9/10 [43:41<05:26, 326.12s/it]Unique sources this epoch: 5140
+100%|██████████| 10/10 [49:19<00:00, 329.89s/it]100%|██████████| 10/10 [49:19<00:00, 296.00s/it]
+
+=== Simulation Results ===
+topology : informed_fat_tree
+workload : incast
+policy   : ospf_ecmp_configuration
+
+drop_ratio           : 0.9695
+mean_latency         : 3.2407
+offered_load         : 3310921.0858
+jain_fairness        : 0.0274
+p50_flow_rate        : 0.0143
+p95_flow_rate        : 0.0356
+mean_edge_util       : 0.4367
+max_edge_util        : 2610.4339
+mean_hops            : 2.2682
+frac_saturated_edges : 0.0054
+throughput           : 100986.8297
+traffic_weighted_util : 0.4367
+topk_edge_load_share : 0.1862
+sum_edge_load        : 10731719.7744
+sum_edge_cap         : 24576000.0000
+edge_util_std        : 17.3802
+switch_util_std      : 12.3255
+switch_util_gini     : 0.9772
+frac_hot_switches    : 0.0048
+mean_switch_util     : 0.7295
+p95_switch_util      : 0.1391

@@ -1,0 +1,13 @@
+Generated 8192 hosts
+[fat-tree] k=32, capacity=8192, hosts=8192
+Graph: 9472 nodes, 24576 edges
+  0%|          | 0/10 [00:00<?, ?it/s]Unique sources this epoch: 8192
+ 10%|█         | 1/10 [20:31<3:04:42, 1231.36s/it]Unique sources this epoch: 8192
+ 20%|██        | 2/10 [20:33<1:07:46, 508.32s/it] Unique sources this epoch: 8191
+ 30%|███       | 3/10 [20:35<32:20, 277.19s/it]  Unique sources this epoch: 8191
+ 40%|████      | 4/10 [20:37<16:51, 168.67s/it]Unique sources this epoch: 8192
+ 50%|█████     | 5/10 [20:40<09:03, 108.61s/it]Unique sources this epoch: 8191
+ 60%|██████    | 6/10 [32:23<20:43, 310.81s/it]Unique sources this epoch: 8191
+ 70%|███████   | 7/10 [54:11<31:50, 636.86s/it]Unique sources this epoch: 8191
+ 80%|████████  | 8/10 [1:15:17<27:54, 837.08s/it]Unique sources this epoch: 8192
+ 90%|█████████ | 9/10 [1:37:39<16:34, 994.86s/it]Unique sources this epoch: 8191

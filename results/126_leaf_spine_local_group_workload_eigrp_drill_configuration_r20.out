@@ -1,0 +1,40 @@
+Generated 8192 hosts
+Graph: 9248 nodes, 40960 edges
+  0%|          | 0/10 [00:00<?, ?it/s]Unique sources this epoch: 8192
+ 10%|█         | 1/10 [19:42<2:57:21, 1182.37s/it]Unique sources this epoch: 8192
+ 20%|██        | 2/10 [19:43<1:05:00, 487.50s/it] Unique sources this epoch: 8191
+ 30%|███       | 3/10 [19:44<30:58, 265.43s/it]  Unique sources this epoch: 8191
+ 40%|████      | 4/10 [19:45<16:06, 161.10s/it]Unique sources this epoch: 8192
+ 50%|█████     | 5/10 [19:46<08:37, 103.44s/it]Unique sources this epoch: 8191
+ 60%|██████    | 6/10 [19:48<04:34, 68.69s/it] Unique sources this epoch: 8191
+ 70%|███████   | 7/10 [19:49<02:19, 46.65s/it]Unique sources this epoch: 8191
+ 80%|████████  | 8/10 [19:50<01:04, 32.20s/it]Unique sources this epoch: 8192
+ 90%|█████████ | 9/10 [19:52<00:22, 22.53s/it]Unique sources this epoch: 8191
+100%|██████████| 10/10 [19:53<00:00, 15.97s/it]100%|██████████| 10/10 [19:53<00:00, 119.33s/it]
+
+=== Simulation Results ===
+topology : leaf_spine
+workload : local_group_workload
+policy   : eigrp_drill_configuration
+
+drop_ratio           : 0.1563
+mean_latency         : 3.9983
+offered_load         : 3315705.4979
+jain_fairness        : 0.8371
+p50_flow_rate        : 3.5943
+p95_flow_rate        : 5.9365
+mean_edge_util       : 0.3237
+max_edge_util        : 2.3961
+mean_hops            : 2.9983
+frac_saturated_edges : 0.0653
+throughput           : 2797410.5725
+traffic_weighted_util : 0.3237
+topk_edge_load_share : 0.0005
+sum_edge_load        : 13256937.5348
+sum_edge_cap         : 40960000.0000
+edge_util_std        : 0.3197
+switch_util_std      : 0.4093
+switch_util_gini     : 0.3098
+frac_hot_switches    : 0.3661
+mean_switch_util     : 0.7536
+p95_switch_util      : 1.4588

@@ -1,0 +1,40 @@
+Generated 8192 hosts
+Graph: 9248 nodes, 40960 edges
+  0%|          | 0/10 [00:00<?, ?it/s]Unique sources this epoch: 5139
+ 10%|█         | 1/10 [02:11<19:47, 131.92s/it]Unique sources this epoch: 5133
+ 20%|██        | 2/10 [02:19<07:50, 58.82s/it] Unique sources this epoch: 5130
+ 30%|███       | 3/10 [02:30<04:17, 36.84s/it]Unique sources this epoch: 5126
+ 40%|████      | 4/10 [02:36<02:27, 24.66s/it]Unique sources this epoch: 5122
+ 50%|█████     | 5/10 [02:42<01:29, 17.98s/it]Unique sources this epoch: 5146
+ 60%|██████    | 6/10 [02:48<00:55, 13.89s/it]Unique sources this epoch: 5123
+ 70%|███████   | 7/10 [02:53<00:33, 11.08s/it]Unique sources this epoch: 5154
+ 80%|████████  | 8/10 [02:58<00:18,  9.03s/it]Unique sources this epoch: 5143
+ 90%|█████████ | 9/10 [03:02<00:07,  7.45s/it]Unique sources this epoch: 5140
+100%|██████████| 10/10 [03:11<00:00,  7.94s/it]100%|██████████| 10/10 [03:11<00:00, 19.13s/it]
+
+=== Simulation Results ===
+topology : leaf_spine
+workload : incast
+policy   : conga_configuration
+
+drop_ratio           : 0.9676
+mean_latency         : 3.8898
+offered_load         : 3310921.0858
+jain_fairness        : 0.0309
+p50_flow_rate        : 0.0215
+p95_flow_rate        : 0.0359
+mean_edge_util       : 0.3145
+max_edge_util        : 329.6711
+mean_hops            : 2.9173
+frac_saturated_edges : 0.0233
+throughput           : 107168.3870
+traffic_weighted_util : 0.3145
+topk_edge_load_share : 0.0775
+sum_edge_load        : 12880651.5702
+sum_edge_cap         : 40960000.0000
+edge_util_std        : 5.9210
+switch_util_std      : 12.2050
+switch_util_gini     : 0.9768
+frac_hot_switches    : 0.0069
+mean_switch_util     : 0.7319
+p95_switch_util      : 0.1402
